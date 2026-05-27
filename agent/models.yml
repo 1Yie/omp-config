@@ -1,10 +1,4 @@
-# ──── 模型配置 ────
-# 融合了 opencode-go 内置发现 + 完整 provider 定义
-# 环境变量见 ~/.omp/agent/.env（模板: .env.example）
-
 providers:
-  # ── OpenCode Go（主提供方，通过 opencode.ai 代理）──
-  # 以下 modelOverrides 补充内置发现缺失的 reasoning/compat 标志
   opencode-go:
     modelOverrides:
       deepseek-v4-pro:
@@ -48,7 +42,6 @@ providers:
             thinking:
               type: enabled
 
-  # ── DeepSeek（直连 API，OpenAI 格式）──
   deepseek:
     baseUrl: https://api.deepseek.com
     api: openai-completions
@@ -114,9 +107,6 @@ providers:
             thinking:
               type: enabled
 
-  # ── DeepSeek（直连 API，Anthropic 格式）──
-  # 使用 Anthropic Messages API 格式访问 DeepSeek 模型
-  # 参考: https://api-docs.deepseek.com/zh-cn/guides/anthropic_api
   deepseek-anthropic:
     baseUrl: https://api.deepseek.com/anthropic
     api: anthropic-messages
@@ -154,12 +144,6 @@ providers:
           cacheRead: 0.003
           cacheWrite: 0.14
 
-  # ═══════════════════════════════════════════════
-  # 以下为扩展提供方，需在 ~/.omp/agent/.env 配置对应 API Key
-  # 如需使用，取消注释并将 .env.example 改为 .env 填入 key
-  # ═══════════════════════════════════════════════
-
-  # ── 自托管 OpenAI 兼容 API ──
   # self-hosted-openai:
   #   baseUrl: https://your-llm-proxy.example.com/v1
   #   apiKey: SELFHOSTED_OPENAI_API_KEY
@@ -177,81 +161,79 @@ providers:
   #         cacheRead: 0
   #         cacheWrite: 0
 
-  # ── NekoCode — Claude 代理（Anthropic API）──
-  # nekocode-claude:
-  #   baseUrl: https://nekocode.ai/v1
-  #   apiKey: NEKOCODE_CLAUDE_API_KEY
-  #   api: anthropic-messages
-  #   auth: apiKey
-  #   models:
-  #     - id: claude-sonnet-4-6
-  #       name: Claude Sonnet 4.6
-  #       reasoning: true
-  #       input: [text, image]
-  #       contextWindow: 1000000
-  #       maxTokens: 64000
-  #       thinking:
-  #         mode: anthropic-adaptive
-  #         minLevel: minimal
-  #         maxLevel: xhigh
-  #       cost:
-  #         input: 3.0
-  #         output: 15.0
-  #         cacheRead: 0.3
-  #         cacheWrite: 3.75
-  #     - id: claude-opus-4-7
-  #       name: Claude Opus 4.7
-  #       reasoning: true
-  #       input: [text, image]
-  #       contextWindow: 1000000
-  #       maxTokens: 128000
-  #       thinking:
-  #         mode: anthropic-adaptive
-  #         minLevel: minimal
-  #         maxLevel: xhigh
-  #       cost:
-  #         input: 5.0
-  #         output: 25.0
-  #         cacheRead: 0.5
-  #         cacheWrite: 6.25
+  nekocode-claude:
+    baseUrl: https://nekocode.ai/v1
+    apiKey: NEKOCODE_CLAUDE_API_KEY
+    api: anthropic-messages
+    auth: apiKey
+    models:
+      - id: claude-sonnet-4-6
+        name: Claude Sonnet 4.6
+        reasoning: true
+        input: [text, image]
+        contextWindow: 1000000
+        maxTokens: 64000
+        thinking:
+          mode: anthropic-adaptive
+          minLevel: minimal
+          maxLevel: xhigh
+        cost:
+          input: 3.0
+          output: 15.0
+          cacheRead: 0.3
+          cacheWrite: 3.75
+      - id: claude-opus-4-7
+        name: Claude Opus 4.7
+        reasoning: true
+        input: [text, image]
+        contextWindow: 1000000
+        maxTokens: 128000
+        thinking:
+          mode: anthropic-adaptive
+          minLevel: minimal
+          maxLevel: xhigh
+        cost:
+          input: 5.0
+          output: 25.0
+          cacheRead: 0.5
+          cacheWrite: 6.25
 
-  # ── NekoCode — OpenAI 代理（GPT 系列）──
-  # nekocode-openai:
-  #   baseUrl: https://nekocode.ai/v1
-  #   apiKey: NEKOCODE_OPENAI_API_KEY
-  #   api: openai-responses
-  #   authHeader: true
-  #   models:
-  #     - id: gpt-5.5
-  #       name: GPT-5.5
-  #       reasoning: true
-  #       input: [text, image]
-  #       contextWindow: 1050000
-  #       maxTokens: 130000
-  #       cost:
-  #         input: 5.0
-  #         output: 30.0
-  #         cacheRead: 0.5
-  #         cacheWrite: 0
-  #     - id: gpt-5.4
-  #       name: GPT-5.4
-  #       reasoning: true
-  #       input: [text, image]
-  #       contextWindow: 1050000
-  #       maxTokens: 128000
-  #       cost:
-  #         input: 2.5
-  #         output: 15.0
-  #         cacheRead: 0.25
-  #         cacheWrite: 0
-  #     - id: gpt-5.4-mini
-  #       name: GPT-5.4 Mini
-  #       reasoning: true
-  #       input: [text, image]
-  #       contextWindow: 400000
-  #       maxTokens: 128000
-  #       cost:
-  #         input: 0.75
-  #         output: 4.5
-  #         cacheRead: 0.075
-  #         cacheWrite: 0
+  nekocode-openai:
+    baseUrl: https://nekocode.ai/v1
+    apiKey: NEKOCODE_OPENAI_API_KEY
+    api: openai-responses
+    authHeader: true
+    models:
+      - id: gpt-5.5
+        name: GPT-5.5
+        reasoning: true
+        input: [text, image]
+        contextWindow: 1050000
+        maxTokens: 130000
+        cost:
+          input: 5.0
+          output: 30.0
+          cacheRead: 0.5
+          cacheWrite: 0
+      - id: gpt-5.4
+        name: GPT-5.4
+        reasoning: true
+        input: [text, image]
+        contextWindow: 1050000
+        maxTokens: 128000
+        cost:
+          input: 2.5
+          output: 15.0
+          cacheRead: 0.25
+          cacheWrite: 0
+      - id: gpt-5.4-mini
+        name: GPT-5.4 Mini
+        reasoning: true
+        input: [text, image]
+        contextWindow: 400000
+        maxTokens: 128000
+        cost:
+          input: 0.75
+          output: 4.5
+          cacheRead: 0.075
+          cacheWrite: 0

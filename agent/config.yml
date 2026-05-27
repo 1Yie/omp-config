@@ -1,21 +1,15 @@
-# Oh My Pi Agent Configuration
-# 融合了 sakuradairong 个人偏好 + kmou424 参考仓库的结构
-lastChangelogVersion: 15.2.4
+lastChangelogVersion: 15.5.2
 defaultThinkingLevel: xhigh
 serviceTier: auto
 hideThinkingBlock: false
 repeatToolDescriptions: false
-
 secrets: 
   enabled: true
-
 skills: 
   enabled: true
   customDirectories: 
     - ~/.omp/skills
     - ~/.claude/skills
-
-# 禁用的内置提供方（减少噪音，按需开启）
 disabledProviders: 
   - claude
   - claude-plugins
@@ -24,10 +18,7 @@ disabledProviders:
   - gemini
   - opencode
   - cline
-  - github
   - mcp-json
-
-# 启用的模型（wildcard 匹配）
 enabledModels: 
   - deepseek/*
   - self-hosted-openai/*
@@ -36,8 +27,6 @@ enabledModels:
   - nekocode-openai/*
   - opencode-go/*
   - cursor/*
-
-# wow 扩展：自动注入多来源的上下文文件
 wow: 
   contexts: 
     - ~/.agents/contexts/*.md
@@ -49,9 +38,8 @@ wow:
     level: info
   inject: 
     enabled: false
-
 modelRoles: 
-  default: opencode-go/deepseek-v4-pro:xhigh
+  default: deepseek/deepseek-v4-flash:xhigh
   smol: opencode-go/deepseek-v4-flash:off
   slow: opencode-go/deepseek-v4-pro:xhigh
   vision: opencode-go/qwen3.5-plus
@@ -64,23 +52,17 @@ modelRoles:
   librarian: opencode-go/deepseek-v4-flash:xhigh
   quick_task: opencode-go/deepseek-v4-flash:off
   oracle: opencode-go/deepseek-v4-pro:xhigh
-
 memory: 
   backend: local
-
 compaction: 
   enabled: true
   reserveTokens: 16384
   keepRecentTokens: 20000
   autoContinue: true
-
 debug: 
   enabled: true
-
 steeringMode: one-at-a-time
 followUpMode: one-at-a-time
 interruptMode: immediate
-
-# 扩展（wow-omp 提供自动上下文注入等功能）
 extensions: 
   - ~/.omp/agent/extensions/wow-omp
